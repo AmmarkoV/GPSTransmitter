@@ -35,8 +35,31 @@ public class MainActivity extends Activity implements LocationListener {
    float speed =0;
    float bearing = 0;
    float altitude=0;
+   String provider="http://ammar.gr:8081/";
+
+    public String getMyPhoneIMEI()
+    {
+        return ((TelephonyManager) getSystemService(TELEPHONY_SERVICE)).getDeviceId();
+    }
 
 
+    public String getMyPhoneNumber()
+    {
+        return ((TelephonyManager) getSystemService(TELEPHONY_SERVICE)).getLine1Number();
+    }
+
+
+    public void OpenGeoPosLocationMapBrowser()
+    {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(provider+"geolocation.html?mlat="+latitude+"&mlon="+longitude));
+        startActivity(browserIntent);
+    }
+
+    public void OpenOpenStreetMapBrowser()
+    {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.openstreetmap.org/?mlat="+latitude+"&mlon="+longitude));
+        startActivity(browserIntent);
+    }
 
     public static String getHttpResponse(URI uri) {
         Log.d("Geo_Location", "Going to make a get request");
@@ -96,29 +119,6 @@ public class MainActivity extends Activity implements LocationListener {
         return true;
     }
 
-    public String getMyPhoneIMEI()
-    {
-        return ((TelephonyManager) getSystemService(TELEPHONY_SERVICE)).getDeviceId();
-    }
-
-
-    public String getMyPhoneNumber()
-    {
-        return ((TelephonyManager) getSystemService(TELEPHONY_SERVICE)).getLine1Number();
-    }
-
-
-    public void OpenGeoPosLocationMapBrowser()
-    {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://139.91.185.36:8081/geolocation.html?mlat="+latitude+"&mlon="+longitude));
-        startActivity(browserIntent);
-    }
-
-    public void OpenOpenStreetMapBrowser()
-    {
-      Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.openstreetmap.org/?mlat="+latitude+"&mlon="+longitude));
-      startActivity(browserIntent);
-    }
 
     public void buttonViewClicked(View view)
     {
@@ -147,9 +147,9 @@ public class MainActivity extends Activity implements LocationListener {
 
         TextView t=new TextView(this);
         t=(TextView)findViewById(R.id.GPSStatus);
-        t.setText((" Latitude: " + latitude + "\n Longitude: " + longitude+"\n Speed: "+speed+"\n Bearing: "+bearing+"\n Altitude: "+altitude+"\n ID: "+phoneID));
+        t.setText((" Latitude: " + latitude + "\n Longitude: " + longitude+"\n Speed: "+speed+"\n Bearing: "+bearing+"\n Altitude: "+altitude+"\n\n "+phoneID));
 
-        URI uri=URI.create(("http://139.91.185.36:8081/gps.html?lat="+latitude+"&lon="+longitude+"&from="+phoneID+"&msg=android"));
+        URI uri=URI.create((provider+"gps.html?lat="+latitude+"&lon="+longitude+"&from="+phoneID+"&msg=android"));
         getHttpResponse(uri);
 
 
