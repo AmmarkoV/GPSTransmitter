@@ -29,7 +29,8 @@ import java.io.InputStreamReader;
 import java.net.URI;
 
 
-public class MainActivity extends Activity implements LocationListener {
+public class MainActivity extends Activity implements LocationListener
+{
    float latitude=0;
    float longitude=0;
    float speed =0;
