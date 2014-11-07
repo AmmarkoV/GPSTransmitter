@@ -32,6 +32,7 @@ import java.net.URI;
 
 public class MainActivity extends Activity implements LocationListener
 {
+   int locationsRegistered=0;
    float latitude=0;
    float longitude=0;
    float speed =0;
@@ -122,6 +123,29 @@ public class MainActivity extends Activity implements LocationListener
     }
 
 
+    public boolean transmitLocation()
+    {
+        TextView t = new TextView(this);
+        t = (TextView) findViewById(R.id.GPSStatus);
+
+        if (locationsRegistered > 0)
+        {
+            String locationID = " Latitude: " + latitude + "\n Longitude: " + longitude + "\n Speed: " + speed + "\n Bearing: " + bearing + "\n Altitude: " + altitude + "\n\n ";
+            String phoneID = getMyPhoneNumber() + "_" + getMyPhoneIMEI();
+
+            t.setText((" Transmitting...\n" + locationID));
+            URI uri = URI.create((provider + "gps.html?lat=" + latitude + "&lon=" + longitude + "&from=" + phoneID + "&speed=" + speed + "&bearing=" + bearing + "&msg=android"));
+            getHttpResponse(uri);
+            t.setText((" Transmitted...\n" + locationID));
+            return true;
+        } else
+        {
+            t.setText(("No GPS Location to transmit!\n"));
+        }
+       return false;
+    }
+
+
     public void buttonViewClicked(View view)
     {
         OpenOpenStreetMapBrowser();
@@ -129,42 +153,35 @@ public class MainActivity extends Activity implements LocationListener
 
     public void buttonShareClicked(View view)
     {
-        OpenGeoPosLocationMapBrowser();
+        if ( transmitLocation() )
+        {
+            OpenGeoPosLocationMapBrowser();
+        }
     }
 
 
     @Override
     public void onLocationChanged(Location location)
     {
+         ++locationsRegistered;
          speed = location.getSpeed();
          latitude = (float) (location.getLatitude());
          longitude = (float) (location.getLongitude());
          bearing= location.getBearing();
          altitude= (float) location.getAltitude();
 
-        String phoneID=getMyPhoneNumber()+"_"+getMyPhoneIMEI();
-
-        Log.i("Geo_Location", "Latitude: " + latitude + ", Longitude: " + longitude);
-
-
-        TextView t=new TextView(this);
-        t=(TextView)findViewById(R.id.GPSStatus); 
-
+        String locationID=" Latitude: " + latitude + "\n Longitude: " + longitude+"\n Speed: "+speed+"\n Bearing: "+bearing+"\n Altitude: "+altitude+"\n\n ";
 
         CheckBox autoRefresh = (CheckBox)findViewById(R.id.checkBoxAutoShare);
-        if ( autoRefresh.isEnabled() )
+        if ( autoRefresh.isChecked() )
         {
-            t.setText((" Transmitting...\n Latitude: " + latitude + "\n Longitude: " + longitude+"\n Speed: "+speed+"\n Bearing: "+bearing+"\n Altitude: "+altitude+"\n\n "+phoneID));
-            URI uri=URI.create((provider+"gps.html?lat="+latitude+"&lon="+longitude+"&from="+phoneID+"&msg=android"));
-            getHttpResponse(uri);
-            t.setText((" Transmitted...\n Latitude: " + latitude + "\n Longitude: " + longitude+"\n Speed: "+speed+"\n Bearing: "+bearing+"\n Altitude: "+altitude+"\n\n "+phoneID));
+            transmitLocation();
         } else
         {
-            t.setText((" Not Transmitting...\n Latitude: " + latitude + "\n Longitude: " + longitude+"\n Speed: "+speed+"\n Bearing: "+bearing+"\n Altitude: "+altitude+"\n\n "+phoneID));
+            TextView t=new TextView(this);
+            t=(TextView)findViewById(R.id.GPSStatus);
+            t.setText((" Offline...\n"+locationID));
         }
-
-
-
 
     }
 
