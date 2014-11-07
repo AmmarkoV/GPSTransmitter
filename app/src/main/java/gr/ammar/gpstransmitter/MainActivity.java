@@ -14,6 +14,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 
@@ -147,11 +148,22 @@ public class MainActivity extends Activity implements LocationListener
 
 
         TextView t=new TextView(this);
-        t=(TextView)findViewById(R.id.GPSStatus);
-        t.setText((" Latitude: " + latitude + "\n Longitude: " + longitude+"\n Speed: "+speed+"\n Bearing: "+bearing+"\n Altitude: "+altitude+"\n\n "+phoneID));
+        t=(TextView)findViewById(R.id.GPSStatus); 
 
-        URI uri=URI.create((provider+"gps.html?lat="+latitude+"&lon="+longitude+"&from="+phoneID+"&msg=android"));
-        getHttpResponse(uri);
+
+        CheckBox autoRefresh = (CheckBox)findViewById(R.id.checkBoxAutoShare);
+        if ( autoRefresh.isEnabled() )
+        {
+            t.setText((" Transmitting...\n Latitude: " + latitude + "\n Longitude: " + longitude+"\n Speed: "+speed+"\n Bearing: "+bearing+"\n Altitude: "+altitude+"\n\n "+phoneID));
+            URI uri=URI.create((provider+"gps.html?lat="+latitude+"&lon="+longitude+"&from="+phoneID+"&msg=android"));
+            getHttpResponse(uri);
+            t.setText((" Transmitted...\n Latitude: " + latitude + "\n Longitude: " + longitude+"\n Speed: "+speed+"\n Bearing: "+bearing+"\n Altitude: "+altitude+"\n\n "+phoneID));
+        } else
+        {
+            t.setText((" Not Transmitting...\n Latitude: " + latitude + "\n Longitude: " + longitude+"\n Speed: "+speed+"\n Bearing: "+bearing+"\n Altitude: "+altitude+"\n\n "+phoneID));
+        }
+
+
 
 
     }
