@@ -15,6 +15,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 
@@ -128,13 +129,17 @@ public class MainActivity extends Activity implements LocationListener
         TextView t = new TextView(this);
         t = (TextView) findViewById(R.id.GPSStatus);
 
+        EditText msgField = new EditText(this);
+        msgField = (EditText) findViewById(R.id.editTextMessage);
+
         if (locationsRegistered > 0)
         {
             String locationID = " Latitude: " + latitude + "\n Longitude: " + longitude + "\n Speed: " + speed + "\n Bearing: " + bearing + "\n Altitude: " + altitude + "\n\n ";
             String phoneID = getMyPhoneNumber() + "_" + getMyPhoneIMEI();
+            String msgStr = msgField.getText().toString();
 
             t.setText((" Transmitting...\n" + locationID));
-            URI uri = URI.create((provider + "gps.html?lat=" + latitude + "&lon=" + longitude + "&from=" + phoneID + "&speed=" + speed + "&bearing=" + bearing + "&msg=android"));
+            URI uri = URI.create((provider + "gps.html?lat=" + latitude + "&lon=" + longitude + "&from=" + phoneID + "&speed=" + speed + "&bearing=" + bearing + "&msg="+msgStr));
             getHttpResponse(uri);
             t.setText((" Transmitted...\n" + locationID));
             return true;

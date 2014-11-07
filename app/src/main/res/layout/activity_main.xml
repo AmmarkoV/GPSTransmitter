@@ -13,34 +13,70 @@
         android:id="@+id/GPSStatus"
         android:layout_centerHorizontal="true" />
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="View Location"
-        android:onClick="buttonViewClicked"
-        android:id="@+id/buttonViewLocation"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="58dp" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/editTextMessage"
+        android:layout_alignLeft="@+id/checkBoxAutoShare"
+        android:layout_alignStart="@+id/checkBoxAutoShare"
+        android:weightSum="1">
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="buttonShareClicked"
-        android:text="Share Location"
-        android:id="@+id/buttonShare"
-        android:layout_above="@+id/buttonViewLocation"
-        android:layout_centerHorizontal="true" />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1.03" />
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Auto Share Location"
-        android:id="@+id/checkBoxAutoShare"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:checked="true" />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Auto Share Location"
+            android:id="@+id/checkBoxAutoShare"
+            android:checked="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextMessage"
+            android:layout_above="@+id/buttonShare"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignRight="@+id/buttonViewLocation"
+            android:layout_alignEnd="@+id/buttonViewLocation"
+            android:hint="Type Your Message Here ..." />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="68dp">
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="View Location"
+                android:onClick="buttonViewClicked"
+                android:id="@+id/buttonViewLocation"
+                android:layout_gravity="right"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="buttonShareClicked"
+                android:text="Share Location"
+                android:id="@+id/buttonShare"
+                android:layout_alignTop="@+id/buttonViewLocation"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+        </RelativeLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>
