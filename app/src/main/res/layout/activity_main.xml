@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:text="Auto Share Location"
             android:id="@+id/checkBoxAutoShare"
-            android:checked="true"
+            android:checked="false"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal" />

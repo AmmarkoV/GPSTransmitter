@@ -55,7 +55,8 @@ public class MainActivity extends Activity implements LocationListener
 
     public void OpenGeoPosLocationMapBrowser()
     {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(provider+"geolocation.html?mlat="+latitude+"&mlon="+longitude));
+        //Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(provider+"geolocation.html?mlat="+latitude+"&mlon="+longitude));
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(provider+"viewmap.html?mlat="+latitude+"&mlon="+longitude));
         startActivity(browserIntent);
     }
 
@@ -158,10 +159,19 @@ public class MainActivity extends Activity implements LocationListener
 
     public void buttonShareClicked(View view)
     {
-        if ( transmitLocation() )
-        {
-            OpenGeoPosLocationMapBrowser();
-        }
+     TextView t = new TextView(this);
+     t = (TextView) findViewById(R.id.GPSStatus);
+
+     if (locationsRegistered > 0)
+     {
+         if (transmitLocation())
+         {
+             OpenGeoPosLocationMapBrowser();
+         }
+     } else
+     {
+         t.setText(("No GPS Location to transmit!\n"));
+     }
     }
 
 
